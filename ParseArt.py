@@ -1,28 +1,30 @@
 # -*- coding: utf-8 -*-
 import shutil
 import requests
-from BeautifulSoup4 import BeautifulSoup4
+from bs4 import BeautifulSoup
 
 
 count = 1
 while count <= 3:
-    url = "http://bazkino.club/movies/page/{}/".format(count)
-    page = requests.get(url).text
-    soup = BeautifulSoup4(page)
-    divs = soup.findAll('div', {'class': 'shortpost'})
 
+    url = "http://bazkino.club/page/{}".format(count)
+    page = requests.get(url).text
+    soup = BeautifulSoup(page, 'html.parser')
+    divs = soup.findAll('div', {'class': 'th-in'})
+    print('Count', count, url)
 
     def find_content():
         for div in divs:
-            div_title = div.find('div', {'class': 'postitle'})
+            div_title = div.find('div', {'class': 'th-desc'})
             link_text = div_title.find('a').text
             print(link_text)
 
-            img = div.find('div', {'class': 'postcover'})
+            img = div.find('a')
             img_src = img.find('img').get('src')
+            img_src = 'http://bazkino.club' + img_src
 
             response = requests.get(img_src, stream=True)
-            with open(link_text + '.jpg', 'wb') as out_file:
+            with open(link_text.replace('/', '') + '.jpg', 'wb') as out_file:
                 shutil.copyfileobj(response.raw, out_file)
             del response
 
@@ -30,5 +32,4 @@ while count <= 3:
 
     count += 1
 
-
-print(find_content())
+    print(find_content())
