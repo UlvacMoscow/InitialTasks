@@ -1,13 +1,13 @@
 
 class Man:
-    def __init__(self):
-        self.__age = None
-        self.__name = None
+    def __init__(self, age, name):
+        self.__age = age
+        self.__name = name
 
     def set_name(self, name):
         self.__name = name
 
-    def set_age (self, age):
+    def set_age(self, age):
         self.__age = age
 
     def info(self):
@@ -15,13 +15,6 @@ class Man:
 
     def __str__(self):
         return self.__name + " " + str(self.__age)
-
-
-m = Man()
-m.set_age(22)
-m.set_name('ivan')
-m.info()
-print(m)
 
 
 class Developer(Man):
@@ -44,6 +37,8 @@ d.set_name('Igor')
 d.set_age(34)
 d.set_lang("Java")
 print(d)
+m2 = Man(22, 'Sasha')
+print(m2)
 
 
 
