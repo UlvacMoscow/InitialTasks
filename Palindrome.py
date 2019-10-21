@@ -8,4 +8,5 @@ def palindrome(word):
         return False
 
 
-print(palindrome(word))
+if __name__ == '__main__':
+    print(palindrome(word))
