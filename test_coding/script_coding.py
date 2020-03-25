@@ -9,14 +9,6 @@ class ServiceCoder:
 
 class EncodingString(ServiceCoder):
 
-    def check_string(self, input_string) -> str:
-        if input_string[::2].isalpha and input_string[::2].isdigit \
-         and len(input_string[::2]) == len(input_string[1::2]):
-            return self.function_coder(input_string)
-        else:
-            raise TypeError("""Строка расшифровки должны состоять из чередующийся последовательно
-            букв и цифр, начинатся строго с буквы и заканчиваться цифрой (А2H3L4)""")
-
     def function_coder(self, input_string: str) -> str:
         encoding_string = ''
         step = 0
@@ -24,16 +16,18 @@ class EncodingString(ServiceCoder):
             encoding_string += elem * int(input_string[1::2][step])
             step += 1
         return encoding_string
+    
+    def check_string(self, input_string) -> str:
+        if input_string[::2].isalpha() and input_string[1::2].isdigit() \
+         and len(input_string[::2]) == len(input_string[1::2]):
+            return self.function_coder(input_string)
+        else:
+            raise TypeError("""Строка расшифровки должны состоять из чередующийся последовательно
+            букв и цифр, начинатся строго с буквы и заканчиваться цифрой (А2H3L4)""")
 
 
 class CodingString(ServiceCoder):
     
-    def check_string(self, input_string):
-        if input_string.isalpha():
-            return self.function_coder(input_string)
-        else:
-            raise TypeError('Строка для кодирование должны состоять только из букв!')
-
     def function_coder(self, input_string: str) -> str:
         counter = 1
         coding_string = ''
@@ -51,6 +45,12 @@ class CodingString(ServiceCoder):
                 step += 1
         return coding_string
 
+    def check_string(self, input_string):
+        if input_string.isalpha():
+            return self.function_coder(input_string)
+        else:
+            raise TypeError('Строка для кодирование должны состоять только из букв!')
+    
     def control_out_range(self, step: int, length_array: int) -> bool:
         return True if step == length_array else False
 
