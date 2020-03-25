@@ -1,43 +1,47 @@
-class ServiceCoder:
+import re
 
-    def check_string(self, input_string) -> str:
+
+class ServiceCoder:
+    def __init__(self, input_str: str) -> None:
+        self.input_str = input_str
+
+    def check_string(self) -> str:
         raise NotImplementedError
 
-    def function_coder(self, input_string) -> str:    
+    def coder(self) -> str:
         raise NotImplementedError
 
 
 class EncodingString(ServiceCoder):
 
-    def function_coder(self, input_string: str) -> str:
+    def coder(self) -> str:
         encoding_string = ''
         step = 0
-        for elem in input_string[::2]:
-            encoding_string += elem * int(input_string[1::2][step])
+        for quantity in self.input_str[::2]:
+            encoding_string += quantity * int(self.input_str[1::2][step])
             step += 1
         return encoding_string
-    
-    def check_string(self, input_string) -> str:
-        if input_string[::2].isalpha() and input_string[1::2].isdigit() \
-         and len(input_string[::2]) == len(input_string[1::2]):
-            return self.function_coder(input_string)
+
+    def check_string(self) -> str:
+        if re.match(r'^(\w\d+)+$', self.input_str):
+            return self.coder()
         else:
             raise TypeError("""Строка расшифровки должны состоять из чередующийся последовательно
             букв и цифр, начинатся строго с буквы и заканчиваться цифрой (А2H3L4)""")
 
 
 class CodingString(ServiceCoder):
-    
-    def function_coder(self, input_string: str) -> str:
+
+    def coder(self) -> str:
         counter = 1
         coding_string = ''
-        length_array = len(input_string) - 1
+        length_array = len(self.input_str) - 1
         step = 0
-        for elem in input_string:
-            if self.control_out_range(step, length_array):
+        for elem in self.input_str:
+            if self.claime_out_range(step, length_array):
                 coding_string += elem + str(counter)
             else:
-                if elem == input_string[step + 1]:
+                if elem == self.input_str[step + 1]:
                     counter += 1
                 else:
                     coding_string += elem + str(counter)
@@ -45,26 +49,28 @@ class CodingString(ServiceCoder):
                 step += 1
         return coding_string
 
-    def check_string(self, input_string):
-        if input_string.isalpha():
-            return self.function_coder(input_string)
+    def check_string(self):
+        if self.input_str.isalpha():
+            return self.coder()
         else:
             raise TypeError('Строка для кодирование должны состоять только из букв!')
-    
-    def control_out_range(self, step: int, length_array: int) -> bool:
+
+    def claime_out_range(self, step: int, length_array: int) -> bool:
         return True if step == length_array else False
 
 
-def fork(condition, input_string):
-    coder = CodingString() if condition else EncodingString()
-    return coder.check_string(input_string)
+def fork(condition: bool, input_string: str) -> str:
+    coder = CodingString(input_string) if condition else EncodingString(input_string)
+    return coder.check_string()
 
 
 if __name__ == "__main__":
     str1 = 'ABAAABBBBBBCCtCGGGGRRR'
     str2 = 'A3B2C4D1H3'
     str3 = 'AB1AAABBBBBBCCtCGGGGRRR'
+    str4 = 'A3B2C4D1H3D'
     print(fork(True, str1))
     print(fork(False, str2))
-    print(fork(False, str3))
-    print(fork(True, str3))
+    # print(fork(False, str3))
+    print(fork(True, str4))
+    # print(fork(True, str3))
