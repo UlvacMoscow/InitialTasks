@@ -23,8 +23,13 @@ class EncodingString(ServiceCoder):
         return encoding_string
 
     def check_string(self) -> str:
-        if re.match(r'^(\w\d+)+$', self.input_str):
+        if self.input_str[::2].isalpha() and self.input_str[1::2].isdigit() \
+         and len(self.input_str[::2]) == len(self.input_str[1::2]):
             return self.coder()
+
+    # def check_string(self) -> str:
+    #     if re.match(r'^(\w\d+)+$', self.input_str):
+    #         return self.coder()
         else:
             raise TypeError("""Строка расшифровки должны состоять из чередующийся последовательно
             букв и цифр, начинатся строго с буквы и заканчиваться цифрой (А2H3L4)""")
@@ -65,12 +70,12 @@ def fork(condition: bool, input_string: str) -> str:
 
 
 if __name__ == "__main__":
-    str1 = 'ABAAABBBBBBCCtCGGGGRRR'
-    str2 = 'A3B2C4D1H3'
-    str3 = 'AB1AAABBBBBBCCtCGGGGRRR'
-    str4 = 'A3B2C4D1H3D'
-    print(fork(True, str1))
-    print(fork(False, str2))
+    # str1 = 'ABAAABBBBBBCCtCGGGGRRR'
+    # str2 = 'A3B2C4D1H3'
+    # str3 = 'ABAAABBBBBBCCtCGGGGRRR'
+    str4 = 'A1D10'
+    # print(fork(True, str1))
+    # print(fork(False, str2))
     # print(fork(False, str3))
-    print(fork(True, str4))
+    print(fork(False, str4))
     # print(fork(True, str3))
