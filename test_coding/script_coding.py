@@ -26,10 +26,6 @@ class EncodingString(ServiceCoder):
         if self.input_str[::2].isalpha() and self.input_str[1::2].isdigit() \
          and len(self.input_str[::2]) == len(self.input_str[1::2]):
             return self.coder()
-
-    # def check_string(self) -> str:
-    #     if re.match(r'^(\w\d+)+$', self.input_str):
-    #         return self.coder()
         else:
             raise TypeError("""Строка расшифровки должны состоять из чередующийся последовательно
             букв и цифр, начинатся строго с буквы и заканчиваться цифрой (А2H3L4)""")
