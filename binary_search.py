@@ -6,9 +6,9 @@ def binary_search(digist_list, target, begin, finish):
         if target == digist_list[middle]:
             return  middle
         elif target < digist_list[middle]:
-            return binary_search(digist_list, target, begin, finish -1)
+            return binary_search(digist_list, target, begin, middle -1)
         else:
-            return binary_search(digist_list, target, begin + 1, finish)
+            return binary_search(digist_list, target, middle + 1, finish)
 
 
 digist_list = [2, 13, 23, 35, 43, 47, 48, 51, 66, 68, 74, 88, 91, 95, 100]
